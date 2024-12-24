@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 type BlogProps = {
   params: { slug: string };
 };
@@ -39,6 +43,17 @@ export default function BlogPost({ params }: BlogProps) {
   const { slug } = params;
   const blog = blogData[slug];
 
+  // State for comments
+  const [comments, setComments] = useState<string[]>([]);
+  const [newComment, setNewComment] = useState<string>("");
+
+  const handleAddComment = () => {
+    if (newComment.trim() !== "") {
+      setComments([...comments, newComment]);
+      setNewComment("");
+    }
+  };
+
   if (!blog) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-100">
@@ -49,14 +64,56 @@ export default function BlogPost({ params }: BlogProps) {
 
   return (
     <div
-      className="min-h-screen bg-cover bg-center text-white flex items-center justify-start pl-10"
+      className="min-h-screen bg-cover bg-center text-white flex justify-start items-center px-4 sm:px-8 lg:px-16"
       style={{
         backgroundImage: "url('/images/think.jpg')",
       }}
     >
-      <div className="max-w-2xl w-full bg-blue-600/60 sm:p-16 p-6 rounded-lg shadow-lg">
-        <h1 className="text-4xl font-bold">{blog.title}</h1>
-        <p className="mt-4 text-lg leading-relaxed">{blog.content}</p>
+      <div className="max-w-3xl w-full bg-blue-600/60 sm:p-12 p-6 rounded-lg shadow-lg">
+        <h1 className="text-3xl sm:text-4xl font-bold">{blog.title}</h1>
+        <p className="mt-4 text-base sm:text-lg leading-relaxed">{blog.content}</p>
+
+        {/* Comments Section */}
+        <div className="mt-8">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">Comments</h2>
+
+          {/* Comments List */}
+          <div className="mb-4">
+            {comments.length === 0 ? (
+              <p className="text-gray-200">
+                No comments yet. Be the first to comment!
+              </p>
+            ) : (
+              <ul>
+                {comments.map((comment, index) => (
+                  <li
+                    key={index}
+                    className="border-b border-gray-300 py-2 text-gray-200"
+                  >
+                    {comment}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* Add New Comment */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8">
+            <input
+              type="text"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Write a comment..."
+              className="text-black flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none w-full sm:w-auto"
+            />
+            <button
+              onClick={handleAddComment}
+              className="mt-4 sm:mt-0 px-4 py-2 bg-white text-blue-600 rounded-lg hover:bg-gray-100"
+            >
+              Add Comment
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
