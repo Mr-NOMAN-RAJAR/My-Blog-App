@@ -6,7 +6,7 @@ export default function About() {
       {/* Background Image */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/images/halftone-background.avif"
+          src="/images/background.png"
           alt="About Background"
           layout="fill"
           objectFit="cover"
