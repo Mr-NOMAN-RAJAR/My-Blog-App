@@ -37,7 +37,7 @@ export default function BlogPage() {
     {
       title: "Time Management Tips",
       slug: "time-management",
-      image: "/images/time-management.jpg",
+      image: "/images/time.png",
       description:
         "Master time management techniques to make the most of your day.",
     },
